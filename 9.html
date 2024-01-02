@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fetch API Example with Error Handling</title>
+</head>
+<body>
+
+<div id="result-container"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const resultContainer = document.getElementById('result-container');
+
+  // Fetch data from the API
+  fetch('https://jsonplaceholder.typicode.com/posts/123456789') // Simulate an error with a non-existent post
+    .then(response => {
+      // Check if the request was successful (status code 200 OK)
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+      }
+      // Parse the JSON data from the response
+      return response.json();
+    })
+    .then(posts => {
+      // Log the retrieved data to the console
+      console.log('Posts:', posts);
+      // Display the result on the webpage (this won't be executed in case of an error)
+      resultContainer.textContent = 'Posts: ' + JSON.stringify(posts);
+    })
+    .catch(error => {
+      // Log any errors to the console
+      console.error('Error:', error.message);
+      // Display an error message on the webpage
+      resultContainer.textContent = 'Error: ' + error.message;
+    });
+});
+</script>
+
+</body>
+</html>
